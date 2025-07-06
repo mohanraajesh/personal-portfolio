@@ -1,0 +1,74 @@
+/* Reset + minimalist base */
+* { margin:0;padding:0;box-sizing:border-box; }
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background: #f9f9f9;
+}
+container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+/* Header & nav */
+header {
+  padding: 20px 0;
+  text-align: center;
+}
+nav a {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #333;
+}
+nav a:hover {
+  color: #007acc;
+}
+/* Section styling */
+section {
+  margin: 40px 0;
+}
+h1, h2 {
+  margin-bottom: 10px;
+  font-weight: 300;
+}
+hr {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 20px 0;
+}
+/* Cards for experience/blog/resource */
+.card {
+  background: white;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+/* Contact form */
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0 15px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+button {
+  background: #007acc;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+button:hover {
+  background: #005fa3;
+}
+/* Footer */
+footer {
+  text-align: center;
+  padding: 15px 0;
+  font-size: 0.9rem;
+  color: #777;
+}
+
