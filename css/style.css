@@ -1,43 +1,73 @@
-/* Reset + minimalist base */
-* { margin:0;padding:0;box-sizing:border-box; }
+/* Reset + Base */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
 body {
   font-family: Arial, sans-serif;
   line-height: 1.6;
   color: #333;
-  background: #f9f9f9;
+  background: #e6ffe6; /* Light green */
 }
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
+
+/* Fixed Sidebar Navigation */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 200px;
+  background-color: #d4fcd4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 30px;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
 }
-/* Header & nav */
-header {
-  padding: 20px 0;
-  text-align: center;
-}
+
 nav a {
-  margin: 0 10px;
+  display: block;
+  margin: 15px 0;
+  width: 100%;
+  text-align: center;
   text-decoration: none;
   color: #333;
+  font-size: 1.1em;
+  padding: 8px;
 }
+
+/* Hover Effect */
 nav a:hover {
   color: #007acc;
+  background-color: #ccffcc;
+  border-radius: 5px;
+  transition: 0.3s;
 }
-/* Section styling */
+
+/* Active Link Styling */
+nav a.active {
+  font-weight: bold;
+  color: #006400;
+  background-color: #b3ffb3;
+}
+
+/* Main Content Container */
+.container {
+  max-width: 800px;
+  margin-left: 220px; /* Leaves space for sidebar */
+  padding: 20px;
+}
+
+/* Sections */
 section {
   margin: 40px 0;
 }
+
+/* Headers */
 h1, h2 {
   margin-bottom: 10px;
   font-weight: 300;
 }
-hr {
-  border: none;
-  border-top: 1px solid #ddd;
-  margin: 20px 0;
-}
-/* Cards for experience/blog/resource */
+
+/* Card Component */
 .card {
   background: white;
   border-radius: 5px;
@@ -45,7 +75,8 @@ hr {
   margin-bottom: 15px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
-/* Contact form */
+
+/* Contact Form */
 input, textarea {
   width: 100%;
   padding: 10px;
@@ -53,6 +84,7 @@ input, textarea {
   border: 1px solid #ccc;
   border-radius: 3px;
 }
+
 button {
   background: #007acc;
   color: white;
@@ -61,9 +93,11 @@ button {
   border-radius: 3px;
   cursor: pointer;
 }
+
 button:hover {
   background: #005fa3;
 }
+
 /* Footer */
 footer {
   text-align: center;
@@ -71,4 +105,3 @@ footer {
   font-size: 0.9rem;
   color: #777;
 }
-
