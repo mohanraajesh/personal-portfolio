@@ -117,12 +117,6 @@
         body: JSON.stringify({ message: userMsg }),
       });
 
-    try {
-      const urlWithQuery = `${webhookURL_1}?message=${encodeURIComponent(userMsg)}`;
-      const res = await fetch(urlWithQuery, {
-      method: "GET"
-      });
-      
       const data = await res.json();
       const reply = data.reply || "✅ Message sent. Awaiting a reply.";
 
