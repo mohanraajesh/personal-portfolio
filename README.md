@@ -1,2 +1,2 @@
 # personal-portfolio
-website to showcase my professional experience, writing blog and sharing other contents
+A personal website to showcase my professional journey, share insightful blogs, and offer valuable resources for growth and inspiration.
