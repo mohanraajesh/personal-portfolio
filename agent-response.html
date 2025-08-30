@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Agent Response</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9fff9;
+      margin: 0;
+      padding: 40px;
+      text-align: center;
+    }
+
+    h2 {
+      color: #007acc;
+    }
+
+    form {
+      margin-top: 20px;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      width: 300px;
+      font-size: 1em;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      padding: 10px 15px;
+      font-size: 1em;
+      background-color: #007acc;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+
+    #response-box {
+      margin-top: 40px;
+      max-width: 600px;
+      background: #eafaff;
+      border-left: 5px solid #007acc;
+      padding: 20px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: left;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Ask My AI Agent</h2>
+
+  <form id="messageForm">
+    <input type="text" id="userMessage" placeholder="Type your question..." required />
+    <button type="submit">Submit</button>
+  </form>
+
+  <div id="response-box">
+    <strong>Agent Reply:</strong>
+    <p id="agentReply"></p>
+  </div>
+
+  <script>
+    const form = document.getElementById("messageForm");
+    const input = document.getElementById("userMessage");
+    const replyBox = document.getElementById("response-box");
+    const replyText = document.getElementById("agentReply");
+
+    const webhookURL = "https://n8n.srv974476.hstgr.cloud/webhook-test/ea376ea5-ace5-4e19-aecc-aa107cf0b628";
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const userMsg = input.value.trim();
+      if (!userMsg) return;
+
+      replyBox.style.display = "block";
+      replyText.textContent = "Thinking...";
+
+      try {
+        const response = await fetch(`${webhookURL}?message=${encodeURIComponent(userMsg)}`);
+        const data = await response.json();
+
+        replyText.textContent = data.reply || "✅ Message sent, no reply received.";
+      } catch (error) {
+        replyText.textContent = "⚠️ Error: Unable to contact the agent.";
+        console.error(error);
+      }
+    });
+  </script>
+
+</body>
+</html>
