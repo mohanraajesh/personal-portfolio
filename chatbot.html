@@ -99,34 +99,41 @@
   const aiOutput = document.getElementById("ai-response");
 
   const webhookURL = "https://n8n.srv974476.hstgr.cloud/webhook-test/ea376ea5-ace5-4e19-aecc-aa107cf0b628";
-  const getWebhookURL = "https://n8n.srv974476.hstgr.cloud/webhook-test/efbff53e-283e-4a19-90ef-045838ec4627";
+  //const getWebhookURL = "https://n8n.srv974476.hstgr.cloud/webhook-test/efbff53e-283e-4a19-90ef-045838ec4627";
 
-form.addEventListener("submit", async (e) => {
+
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const message = input.value.trim();
-    if (!message) return;
+    const userMsg = input.value.trim();
+    if (!userMsg) return;
 
-    replyBox.textContent = "Thinking... 🤔";
+    // Show user message
+    messages.innerHTML += `<div class="msg user">${userMsg}</div>`;
     input.value = "";
+    messages.scrollTop = messages.scrollHeight;
 
     try {
-      // OPTIONAL: Send message to agent
-      await fetch(postWebhookURL, {
+      const res = await fetch(webhookURL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message })
+        body: JSON.stringify({ message: userMsg }),
       });
 
-      // GET response from second webhook
-      const res = await fetch(`${getWebhookURL}?message=${encodeURIComponent(message)}`);
       const data = await res.json();
-      replyBox.textContent = data.reply || "✅ Message sent. No reply received.";
-    } catch (error) {
-      replyBox.textContent = "⚠️ Error contacting the agent.";
-      console.error("Agent error:", error);
+
+      const reply = data.reply || "✅ Message sent. Awaiting a reply.";
+
+      // Display agent response
+      messages.innerHTML += `<div class="msg bot">${reply}</div>`;
+      messages.scrollTop = messages.scrollHeight;
+
+    } catch (err) {
+      messages.innerHTML += `<div class="msg bot">⚠️ Error: could not contact the agent.</div>`;
+      console.error(err);
     }
   });
 </script>
 
 </body>
 </html>
+  
