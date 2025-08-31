@@ -105,3 +105,18 @@ footer {
   font-size: 0.9rem;
   color: #777;
 }
+
+.subtitle {
+  font-size: 1.6em;
+  font-weight: bold;
+  margin-left: 220px;
+  background: linear-gradient(90deg, #00c3ff, #ffff1c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 3s infinite linear;
+}
+
+@keyframes shine {
+  0% { background-position: 0%; }
+  100% { background-position: 200%; }
+}
