@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Chatbot</title>
+  <title>Chat with My AI Agent</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -13,9 +13,8 @@
     }
 
     #chatbot-container {
-      width: 100%;
       max-width: 600px;
-      margin: 40px auto;
+      margin: 50px auto;
       background: white;
       border: 1px solid #ccc;
       border-radius: 8px;
@@ -31,6 +30,32 @@
       font-size: 1.2em;
     }
 
+    #chat-messages {
+      height: 400px;
+      overflow-y: auto;
+      padding: 15px;
+    }
+
+    .msg {
+      margin: 10px 0;
+      padding: 8px 12px;
+      border-radius: 6px;
+      max-width: 80%;
+      word-wrap: break-word;
+    }
+
+    .user {
+      background-color: #daf1ff;
+      text-align: right;
+      margin-left: auto;
+    }
+
+    .bot {
+      background-color: #e4ffe4;
+      text-align: left;
+      margin-right: auto;
+    }
+
     #chat-form {
       display: flex;
       border-top: 1px solid #eee;
@@ -40,7 +65,6 @@
       flex: 1;
       padding: 12px;
       border: none;
-      border-top: 1px solid #ddd;
       font-size: 1em;
     }
 
@@ -56,36 +80,14 @@
     #chat-send:hover {
       background: #005fa3;
     }
-
-    #agent-response-box {
-      background: #f1f9ff;
-      padding: 20px;
-      min-height: 100px;
-      border-bottom: 1px solid #ddd;
-      font-size: 1.1em;
-      color: #333;
-    }
-
-    #agent-response-box p {
-      margin: 0;
-    }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Rajesh Mohan</h1>
-    <nav>
-      <a href="main.html">Home</a>
-    </nav>
-    <hr />
-  </header>
-  
+
 <div id="chatbot-container">
   <div id="chat-header">🤖 Chat with My AI Agent</div>
 
-  <div id="agent-response-box">
-    <p><strong>AI Agent Response:</strong> <span id="ai-response">Waiting for input...</span></p>
-  </div>
+  <div id="chat-messages"></div>
 
   <form id="chat-form">
     <input type="text" id="chat-input" placeholder="Type your message..." autocomplete="off" required />
@@ -96,19 +98,21 @@
 <script>
   const form = document.getElementById("chat-form");
   const input = document.getElementById("chat-input");
-  const aiOutput = document.getElementById("ai-response");
+  const messages = document.getElementById("chat-messages");
 
+  //const webhookURL = "https://n8n.srv974476.hstgr.cloud/webhook/ea376ea5-ace5-4e19-aecc-aa107cf0b628";
   const webhookURL = "https://n8n.srv974476.hstgr.cloud/webhook-test/ea376ea5-ace5-4e19-aecc-aa107cf0b628";
-  //const getWebhookURL = "https://n8n.srv974476.hstgr.cloud/webhook-test/efbff53e-283e-4a19-90ef-045838ec4627";
-
-
+  
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const userMsg = input.value.trim();
     if (!userMsg) return;
 
-    // Show user message
-    messages.innerHTML += `<div class="msg user">${userMsg}</div>`;
+    // Display user message
+    const userDiv = document.createElement("div");
+    userDiv.className = "msg user";
+    userDiv.textContent = userMsg;
+    messages.appendChild(userDiv);
     input.value = "";
     messages.scrollTop = messages.scrollHeight;
 
@@ -116,20 +120,29 @@
       const res = await fetch(webhookURL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: userMsg }),
+        body: JSON.stringify({ message: userMsg })
       });
 
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
       const data = await res.json();
+      const reply = data.reply || "✅ Message sent. No response received.";
 
-      const reply = data.reply || "✅ Message sent. Awaiting a reply.";
-
-      // Display agent response
-      messages.innerHTML += `<div class="msg bot">${reply}</div>`;
+      const botDiv = document.createElement("div");
+      botDiv.className = "msg bot";
+      botDiv.textContent = reply;
+      messages.appendChild(botDiv);
       messages.scrollTop = messages.scrollHeight;
-
-    } catch (err) {
-      messages.innerHTML += `<div class="msg bot">⚠️ Error: could not contact the agent.</div>`;
-      console.error(err);
+    } catch (error) {
+      const errorDiv = document.createElement("div");
+      errorDiv.className = "msg bot";
+      errorDiv.textContent = "⚠️ Failed to contact the AI agent.";
+      messages.appendChild(errorDiv);
+      messages.scrollTop = messages.scrollHeight;
+      console.error("Chat error:", error);
     }
   });
 </script>
+
+</body>
+</html>
