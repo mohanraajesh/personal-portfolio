@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Chat with My AI Agent</title>
+  <title>Chatbot with Markdown, Typing & Timestamps</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -56,6 +56,12 @@
       margin-right: auto;
     }
 
+    .timestamp {
+      font-size: 0.75em;
+      color: #888;
+      margin-top: 4px;
+    }
+
     #chat-form {
       display: flex;
       border-top: 1px solid #eee;
@@ -95,6 +101,9 @@
   </form>
 </div>
 
+<!-- Markdown Parser -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
 <script>
   const form = document.getElementById("chat-form");
   const input = document.getElementById("chat-input");
@@ -102,18 +111,33 @@
 
   //const webhookURL = "https://n8n.srv974476.hstgr.cloud/webhook/ea376ea5-ace5-4e19-aecc-aa107cf0b628";
   const webhookURL = "https://n8n.srv974476.hstgr.cloud/webhook-test/ea376ea5-ace5-4e19-aecc-aa107cf0b628";
-  
+
+  function addMessage(content, type, isMarkdown = false) {
+    const wrapper = document.createElement("div");
+    wrapper.className = `msg ${type}`;
+    wrapper.innerHTML = isMarkdown ? marked.parse(content) : content;
+
+    const timestamp = document.createElement("div");
+    timestamp.className = "timestamp";
+    timestamp.textContent = new Date().toLocaleTimeString();
+
+    wrapper.appendChild(timestamp);
+    messages.appendChild(wrapper);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const userMsg = input.value.trim();
     if (!userMsg) return;
 
-    // Display user message
-    const userDiv = document.createElement("div");
-    userDiv.className = "msg user";
-    userDiv.textContent = userMsg;
-    messages.appendChild(userDiv);
+    addMessage(userMsg, "user");
     input.value = "";
+
+    const typingMsg = document.createElement("div");
+    typingMsg.className = "msg bot";
+    typingMsg.textContent = "Typing...";
+    messages.appendChild(typingMsg);
     messages.scrollTop = messages.scrollHeight;
 
     try {
@@ -123,22 +147,16 @@
         body: JSON.stringify({ message: userMsg })
       });
 
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
       const data = await res.json();
       const reply = data.reply || "✅ Message sent. No response received.";
 
-      const botDiv = document.createElement("div");
-      botDiv.className = "msg bot";
-      botDiv.textContent = reply;
-      messages.appendChild(botDiv);
-      messages.scrollTop = messages.scrollHeight;
+      setTimeout(() => {
+        typingMsg.remove();
+        addMessage(reply, "bot", true);
+      }, 1200); // simulate typing
     } catch (error) {
-      const errorDiv = document.createElement("div");
-      errorDiv.className = "msg bot";
-      errorDiv.textContent = "⚠️ Failed to contact the AI agent.";
-      messages.appendChild(errorDiv);
-      messages.scrollTop = messages.scrollHeight;
+      typingMsg.remove();
+      addMessage("⚠️ Failed to contact the AI agent.", "bot");
       console.error("Chat error:", error);
     }
   });
