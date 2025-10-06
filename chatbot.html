@@ -148,7 +148,9 @@
       });
 
       const data = await res.json();
-      const reply = data.reply || "✅ Message sent. No response received.";
+      //const reply = data.reply || "✅ Message sent. No response received.";
+
+      chat.addBotMessage(data.reply);
 
       setTimeout(() => {
         typingMsg.remove();
