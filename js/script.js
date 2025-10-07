@@ -21,20 +21,3 @@ if (form) {
   });
 }
 
-// adding as per the instructions
-const res = await fetch(webhookURL, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ message: userMsg }),
-  mode: "cors",
-});
-
-const raw = await res.text();
-console.log("HTTP", res.status, res.headers.get("content-type"), raw);
-
-if (!res.ok) throw new Error(`HTTP ${res.status}: ${raw}`);
-
-let data;
-try { data = JSON.parse(raw); } catch { data = { reply: raw }; }
-
-const reply = data.reply || "✅ Message sent. No response received.";
