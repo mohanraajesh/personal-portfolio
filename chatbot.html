@@ -146,16 +146,30 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: userMsg })
       });
-
-      const data = await res.json();
-      const reply = data.reply || "✅ Message sent. No response received.";
-
-      //chat.addBotMessage(data.reply);
-
+    
+      // Check if server responded OK
+      if (!res.ok) {
+        throw new Error(`Server returned ${res.status}`);
+      }
+    
+      // Read raw response first
+      const raw = await res.text();
+      console.log("RAW RESPONSE:", raw);
+    
+      let data;
+      try {
+        data = JSON.parse(raw);
+      } catch {
+        throw new Error("Response was not JSON. Check n8n Respond to Webhook.");
+      }
+    
+      const reply = data.reply || "No reply field returned.";
+    
       setTimeout(() => {
         typingMsg.remove();
         addMessage(reply, "bot", true);
-      }, 1200); // simulate typing
+      }, 1200);
+      
     } catch (error) {
       typingMsg.remove();
       addMessage("⚠️ Failed to contact the AI agent.", "bot");
