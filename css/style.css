@@ -1,11 +1,22 @@
 /* Reset + Base */
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+    "Helvetica Neue", Arial, sans-serif;
   line-height: 1.6;
-  color: #333;
-  background: #e6ffe6; /* Light green */
+  color: #1d1d1f;
+  background: #f5f5f7;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 /* Fixed Sidebar Navigation */
@@ -14,129 +25,212 @@ nav {
   top: 0;
   left: 0;
   height: 100%;
-  width: 200px;
-  background-color: #d4fcd4;
+  width: 220px;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-right: 1px solid rgba(0, 0, 0, 0.06);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding-top: 30px;
-  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  align-items: stretch;
+  padding: 32px 16px;
 }
 
 nav a {
   display: block;
-  margin: 15px 0;
+  margin: 6px 0;
   width: 100%;
-  text-align: center;
+  text-align: left;
   text-decoration: none;
-  color: #333;
-  font-size: 1.1em;
-  padding: 8px;
+  color: #3a3a3c;
+  font-size: 0.98rem;
+  font-weight: 500;
+  padding: 12px 14px;
+  border-radius: 12px;
+  transition: background-color 0.25s ease, color 0.25s ease, transform 0.2s ease;
 }
 
 /* Hover Effect */
 nav a:hover {
-  color: #007acc;
-  background-color: #ccffcc;
-  border-radius: 5px;
-  transition: 0.3s;
+  background: rgba(0, 0, 0, 0.04);
+  color: #000;
+  transform: translateX(2px);
 }
 
 /* Active Link Styling */
 nav a.active {
-  font-weight: bold;
-  color: #006400;
-  background-color: #b3ffb3;
+  background: #ffffff;
+  color: #000;
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04),
+              0 4px 14px rgba(0, 0, 0, 0.06);
 }
 
 /* Main Content Container */
 .container {
-  max-width: 800px;
-  margin-left: 220px; /* Leaves space for sidebar */
-  padding: 20px;
+  max-width: 920px;
+  margin-left: 260px;
+  padding: 56px 32px;
 }
 
 /* Sections */
 section {
-  margin: 40px 0;
+  margin: 48px 0;
 }
 
 /* Headers */
-h1, h2 {
-  margin-bottom: 10px;
-  font-weight: 300;
+h1,
+h2 {
+  margin-bottom: 14px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #1d1d1f;
+}
+
+h1 {
+  font-size: 2.5rem;
+  line-height: 1.1;
+}
+
+h2 {
+  font-size: 1.6rem;
+  line-height: 1.2;
 }
 
 /* Card Component */
 .card {
-  background: white;
-  border-radius: 5px;
-  padding: 15px;
-  margin-bottom: 15px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 20px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
 /* Contact Form */
-input, textarea {
+input,
+textarea {
   width: 100%;
-  padding: 10px;
-  margin: 5px 0 15px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
+  padding: 14px 16px;
+  margin: 8px 0 18px;
+  border: 1px solid #d2d2d7;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #1d1d1f;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
+input:focus,
+textarea:focus {
+  border-color: #0071e3;
+  box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.12);
+  background: #fff;
+}
+
+/* Button */
 button {
-  background: #007acc;
+  background: #0071e3;
   color: white;
-  padding: 10px 20px;
+  padding: 12px 22px;
   border: none;
-  border-radius: 3px;
+  border-radius: 999px;
   cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+  box-shadow: 0 6px 18px rgba(0, 113, 227, 0.22);
 }
 
 button:hover {
-  background: #005fa3;
+  background: #0077ed;
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 10px rgba(0, 113, 227, 0.18);
 }
 
 /* Footer */
 footer {
   text-align: center;
-  padding: 15px 0;
+  padding: 32px 0 16px;
   font-size: 0.9rem;
-  color: #777;
+  color: #86868b;
 }
 
+/* Title */
 .title-role {
-  font-size: 2rem;
+  font-size: 3rem;
   font-weight: 700;
-  color: #1a73e8;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin-left: 220px;
-  margin-top: 10px;
-  margin-bottom: 30px;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.15);
-  letter-spacing: 1px;
-  background: linear-gradient(to right, #1a73e8, #00c3ff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: glowText 3s ease-in-out infinite alternate;
+  color: #1d1d1f;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+    "Helvetica Neue", Arial, sans-serif;
+  margin-left: 260px;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
 }
 
-@keyframes glowText {
-  from {
-    text-shadow: 0 0 5px #00c3ff;
-  }
-  to {
-    text-shadow: 0 0 15px #1a73e8;
-  }
-}
-
+/* Subtitle */
 .subtitle {
-  font-size: 1.6em;
-  font-weight: bold;
-  margin-left: 220px;
-  background: linear-gradient(90deg, #00c3ff, #ffff1c);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shine 3s infinite linear;
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: #6e6e73;
+  margin-left: 260px;
+  margin-bottom: 32px;
+  letter-spacing: -0.01em;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  nav {
+    position: static;
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 16px;
+    border-right: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  nav a {
+    width: auto;
+    margin: 6px;
+    text-align: center;
+  }
+
+  .container,
+  .title-role,
+  .subtitle {
+    margin-left: 0;
+  }
+
+  .container {
+    padding: 32px 20px;
+  }
+
+  .title-role {
+    margin: 28px 20px 10px;
+    font-size: 2.2rem;
+  }
+
+  .subtitle {
+    margin: 0 20px 24px;
+    font-size: 1.05rem;
+  }
 }
