@@ -5,6 +5,15 @@
   box-sizing: border-box;
 }
 
+:root {
+  --sidebar-width: 280px;
+  --page-bg: #f5f5f7;
+  --text-main: #1d1d1f;
+  --text-muted: #6e6e73;
+  --border-soft: rgba(0, 0, 0, 0.08);
+  --apple-blue: #0071e3;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -13,109 +22,124 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
     "Helvetica Neue", Arial, sans-serif;
   line-height: 1.6;
-  color: #1d1d1f;
-  background: #f5f5f7;
+  color: var(--text-main);
+  background: var(--page-bg);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
 }
 
-/* Fixed Sidebar Navigation */
+/* Left navigation panel */
 nav {
   position: fixed;
   top: 0;
   left: 0;
-  height: 100%;
-  width: 220px;
-  background: rgba(255, 255, 255, 0.72);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-right: 1px solid rgba(0, 0, 0, 0.06);
+  width: var(--sidebar-width);
+  height: 100vh;
+  background: #f3f3f4;
+  border-right: 1px solid var(--border-soft);
   display: flex;
   flex-direction: column;
-  align-items: stretch;
-  padding: 32px 16px;
+  padding: 36px 28px;
+  z-index: 1000;
 }
 
 nav a {
   display: block;
-  margin: 6px 0;
-  width: 100%;
-  text-align: left;
   text-decoration: none;
   color: #3a3a3c;
-  font-size: 0.98rem;
+  font-size: 1.05rem;
   font-weight: 500;
-  padding: 12px 14px;
-  border-radius: 12px;
-  transition: background-color 0.25s ease, color 0.25s ease, transform 0.2s ease;
+  padding: 14px 0;
+  margin-bottom: 8px;
+  transition: color 0.2s ease;
 }
 
-/* Hover Effect */
 nav a:hover {
-  background: rgba(0, 0, 0, 0.04);
   color: #000;
-  transform: translateX(2px);
 }
 
-/* Active Link Styling */
 nav a.active {
-  background: #ffffff;
   color: #000;
   font-weight: 600;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04),
-              0 4px 14px rgba(0, 0, 0, 0.06);
 }
 
-/* Main Content Container */
+/* Entire content area shifted right once */
+main {
+  margin-left: var(--sidebar-width);
+  width: calc(100% - var(--sidebar-width));
+  min-height: 100vh;
+}
+
+/* Top title area */
+.page-header {
+  padding: 22px 48px 18px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.45);
+}
+
+.site-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 28px;
+  color: var(--text-main);
+}
+
+.title-role {
+  margin: 0;
+  font-size: clamp(2.4rem, 4.8vw, 4.6rem);
+  line-height: 1.05;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: var(--text-main);
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.subtitle {
+  margin-top: 10px;
+  font-size: 1.08rem;
+  color: var(--text-muted);
+}
+
+/* Correct class selector */
 .container {
-  max-width: 920px;
-  margin-left: 260px;
-  padding: 56px 32px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 70px 48px 40px;
 }
 
-/* Sections */
 section {
-  margin: 48px 0;
+  margin-bottom: 56px;
 }
 
-/* Headers */
 h1,
 h2 {
   margin-bottom: 14px;
   font-weight: 600;
   letter-spacing: -0.02em;
-  color: #1d1d1f;
-}
-
-h1 {
-  font-size: 2.5rem;
-  line-height: 1.1;
+  color: var(--text-main);
 }
 
 h2 {
-  font-size: 1.6rem;
-  line-height: 1.2;
+  font-size: 2rem;
 }
 
-/* Card Component */
+p {
+  font-size: 1.05rem;
+  color: #2d2d2f;
+  max-width: 900px;
+}
+
 .card {
-  background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--border-soft);
   border-radius: 20px;
   padding: 24px;
   margin-bottom: 20px;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-}
-
-/* Contact Form */
 input,
 textarea {
   width: 100%;
@@ -123,23 +147,20 @@ textarea {
   margin: 8px 0 18px;
   border: 1px solid #d2d2d7;
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.9);
-  color: #1d1d1f;
+  background: #fff;
+  color: var(--text-main);
   font-size: 1rem;
   outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
 input:focus,
 textarea:focus {
-  border-color: #0071e3;
+  border-color: var(--apple-blue);
   box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.12);
-  background: #fff;
 }
 
-/* Button */
 button {
-  background: #0071e3;
+  background: var(--apple-blue);
   color: white;
   padding: 12px 22px;
   border: none;
@@ -147,90 +168,55 @@ button {
   cursor: pointer;
   font-size: 0.95rem;
   font-weight: 600;
-  letter-spacing: -0.01em;
-  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
-  box-shadow: 0 6px 18px rgba(0, 113, 227, 0.22);
 }
 
 button:hover {
   background: #0077ed;
-  transform: translateY(-1px);
 }
 
-button:active {
-  transform: translateY(0);
-  box-shadow: 0 3px 10px rgba(0, 113, 227, 0.18);
-}
-
-/* Footer */
 footer {
   text-align: center;
-  padding: 32px 0 16px;
-  font-size: 0.9rem;
+  padding: 42px 20px 28px;
+  font-size: 0.95rem;
   color: #86868b;
 }
 
-/* Title */
-.title-role {
-  font-size: 3rem;
-  font-weight: 700;
-  color: #1d1d1f;
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
-    "Helvetica Neue", Arial, sans-serif;
-  margin-left: 260px;
-  margin-top: 40px;
-  margin-bottom: 12px;
-  letter-spacing: -0.03em;
-  line-height: 1.05;
+@media (max-width: 900px) {
+  :root {
+    --sidebar-width: 220px;
+  }
+
+  .page-header,
+  .container {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
 }
 
-/* Subtitle */
-.subtitle {
-  font-size: 1.25rem;
-  font-weight: 400;
-  color: #6e6e73;
-  margin-left: 260px;
-  margin-bottom: 32px;
-  letter-spacing: -0.01em;
-}
-
-/* Responsive */
 @media (max-width: 768px) {
   nav {
     position: static;
     width: 100%;
     height: auto;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 16px;
     border-right: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    border-bottom: 1px solid var(--border-soft);
+    padding: 18px 20px;
   }
 
-  nav a {
-    width: auto;
-    margin: 6px;
-    text-align: center;
-  }
-
-  .container,
-  .title-role,
-  .subtitle {
+  main {
     margin-left: 0;
+    width: 100%;
+  }
+
+  .page-header {
+    padding: 24px 20px 16px;
   }
 
   .container {
-    padding: 32px 20px;
+    padding: 40px 20px;
   }
 
   .title-role {
-    margin: 28px 20px 10px;
-    font-size: 2.2rem;
-  }
-
-  .subtitle {
-    margin: 0 20px 24px;
-    font-size: 1.05rem;
+    font-size: 2rem;
   }
 }
