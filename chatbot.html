@@ -2,181 +2,36 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Chatbot with Markdown, Typing & Timestamps</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f0fdf4;
-      margin: 0;
-      padding: 0;
-    }
-
-    #chatbot-container {
-      max-width: 600px;
-      margin: 50px auto;
-      background: white;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      overflow: hidden;
-    }
-
-    #chat-header {
-      background: #007acc;
-      color: white;
-      padding: 12px;
-      text-align: center;
-      font-size: 1.2em;
-    }
-
-    #chat-messages {
-      height: 400px;
-      overflow-y: auto;
-      padding: 15px;
-    }
-
-    .msg {
-      margin: 10px 0;
-      padding: 8px 12px;
-      border-radius: 6px;
-      max-width: 80%;
-      word-wrap: break-word;
-    }
-
-    .user {
-      background-color: #daf1ff;
-      text-align: right;
-      margin-left: auto;
-    }
-
-    .bot {
-      background-color: #e4ffe4;
-      text-align: left;
-      margin-right: auto;
-    }
-
-    .timestamp {
-      font-size: 0.75em;
-      color: #888;
-      margin-top: 4px;
-    }
-
-    #chat-form {
-      display: flex;
-      border-top: 1px solid #eee;
-    }
-
-    #chat-input {
-      flex: 1;
-      padding: 12px;
-      border: none;
-      font-size: 1em;
-    }
-
-    #chat-send {
-      background: #007acc;
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      cursor: pointer;
-      font-size: 1em;
-    }
-
-    #chat-send:hover {
-      background: #005fa3;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChatBot | Personal Portfolio</title>
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+  <nav>
+    <div class="nav-brand">RM</div>
+    <a href="main.html">Home</a>
+    <a href="experience.html">Experience</a>
+    <a href="blog.html">Blog</a>
+    <a href="content.html">Resources</a>
+    <a href="contact.html">Contact</a>
+    <a href="chatbot.html" class="active">ChatBot</a>
+  </nav>
 
-<div id="chatbot-container">
-  <div id="chat-header">🤖 Chat with My AI Agent</div>
+  <main>
+    <header class="page-header">
+      <h1 class="title-role">ChatBot</h1>
+    </header>
 
-  <div id="chat-messages"></div>
+    <div class="container">
+      <section>
+        <div class="card">
+          <h2>Assistant</h2>
+          <p>Your chatbot UI can go here.</p>
+        </div>
+      </section>
+    </div>
 
-  <form id="chat-form">
-    <input type="text" id="chat-input" placeholder="Type your message..." autocomplete="off" required />
-    <button type="submit" id="chat-send">Send</button>
-  </form>
-</div>
-
-<!-- Markdown Parser -->
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
-<script>
-  const form = document.getElementById("chat-form");
-  const input = document.getElementById("chat-input");
-  const messages = document.getElementById("chat-messages");
-
-  //const webhookURL = "https://n8n.srv974476.hstgr.cloud/webhook/ea376ea5-ace5-4e19-aecc-aa107cf0b628";
-  const webhookURL = "https://n8n.srv974476.hstgr.cloud/webhook-test/9d777f1f-5ebd-4713-8501-4a7091aee99e";
-
-  function addMessage(content, type, isMarkdown = false) {
-    const wrapper = document.createElement("div");
-    wrapper.className = `msg ${type}`;
-    wrapper.innerHTML = isMarkdown ? marked.parse(content) : content;
-
-    const timestamp = document.createElement("div");
-    timestamp.className = "timestamp";
-    timestamp.textContent = new Date().toLocaleTimeString();
-
-    wrapper.appendChild(timestamp);
-    messages.appendChild(wrapper);
-    messages.scrollTop = messages.scrollHeight;
-  }
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const userMsg = input.value.trim();
-    if (!userMsg) return;
-
-    addMessage(userMsg, "user");
-    input.value = "";
-
-    const typingMsg = document.createElement("div");
-    typingMsg.className = "msg bot";
-    typingMsg.textContent = "Waiting for response...";
-    messages.appendChild(typingMsg);
-    messages.scrollTop = messages.scrollHeight;
-
-    try {
-      const res = await fetch(webhookURL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: userMsg })
-      });
-    
-      // Check if server responded OK
-      if (!res.ok) {
-        throw new Error(`Server returned ${res.status}`);
-      }
-    
-      // Read raw response first
-      const raw = await res.text();
-      console.log("RAW RESPONSE:", raw);
-    
-      let data;
-      try {
-        data = JSON.parse(raw);
-      } catch {
-        throw new Error("Response was not JSON. Check n8n Respond to Webhook.");
-      }
-    
-      const reply = data.reply || "No reply field returned.";
-    
-      setTimeout(() => {
-        typingMsg.remove();
-        addMessage(reply, "bot", true);
-      }, 1200);
-      
-    } catch (error) {
-      typingMsg.remove();
-      addMessage("⚠️ Failed to contact the AI agent.", "bot");
-      console.error("Chat error:", error);
-    }
-  });
-</script>
-
+    <footer>© 2025 Your Name | GitHub | LinkedIn</footer>
+  </main>
 </body>
 </html>
